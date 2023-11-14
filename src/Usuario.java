@@ -195,4 +195,8 @@ public class Usuario {
             }
         }
     }
+
+    public static void emitirRelatorio(ArrayList<Servico> listaServicos) {
+
+    }
 }
