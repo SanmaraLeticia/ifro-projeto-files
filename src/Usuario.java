@@ -1,5 +1,10 @@
 import javax.swing.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Usuario {
     private static int idAutomatico = 1;
@@ -35,6 +40,25 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public static Date getDateInput(String prompt, SimpleDateFormat sdf) {
+        Date value = null;
+        boolean validInput = false;
+        while (!validInput) {
+            String input = JOptionPane.showInputDialog(prompt);
+            if (input == null) {
+                return null;
+            }
+            try {
+                value = sdf.parse(input);
+                validInput = true;
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null,
+                        "Formato de data inválido. Certifique-se de usar o padrão (dd/MM/yyyy)");
+            }
+        }
+        return value;
     }
 
     public static boolean realizarLogin(ArrayList<Usuario> listaUsuarios) {
@@ -197,6 +221,37 @@ public class Usuario {
     }
 
     public static void emitirRelatorio(ArrayList<Servico> listaServicos) {
+        if (listaServicos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nenhum serviço realizado.");
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
+            Date dataInicial = getDateInput("Data Inicial (dd/MM/yyyy):", sdf);
+            if (dataInicial == null) {
+                return;
+            }
+            // Cadastro da data final
+            Date dataFinal = getDateInput("Data Final (dd/MM/yyyy):", sdf);
+            if (dataFinal == null) {
+                return;
+            }
+            List<Servico> listaFiltrada = listaServicos.stream()
+                    .filter(e -> (e.getDataEntrega().before(dataFinal) || e.getDataEntrega().equals(dataFinal))
+                            && e.getDataEntrega().after(dataInicial) || e.getDataEntrega().equals(dataInicial))
+                    .collect(Collectors.toList());
+
+            if (listaFiltrada.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nenhum serviço realizado.");
+            } else {
+                String textoRetorno = "";
+                for (Servico servico : listaFiltrada) {
+                    textoRetorno += "\nID: " + servico.getIdServico() +
+                            " Cliente: " + servico.getCliente().getNome() +
+                            " Equipamento: " + servico.getIdEquipamento() +
+                            " Data Entrega: " + sdf.format(servico.getDataEntrega());
+                }
+                JOptionPane.showMessageDialog(null, textoRetorno);
+            }
+        }
     }
 }
