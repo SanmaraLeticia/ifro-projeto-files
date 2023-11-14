@@ -12,7 +12,7 @@ public class Usuario {
     private String login;
     private String senha;
 
-    public Usuario(int IdUsuario, String login, String senha) {
+    public Usuario(String login, String senha) {
         this.idUsuario = idAutomatico++;
         this.login = login;
         this.senha = senha;
@@ -76,42 +76,28 @@ public class Usuario {
 
     public static void cadastrarUsuario(ArrayList<Usuario> listaUsuarios) {
 
-        String idUsuarioStr = JOptionPane.showInputDialog("ID do Usuário:");
 
-        // Verifica se o usuário cancelou a entrada
-        if (idUsuarioStr == null) {
+        String login = JOptionPane.showInputDialog("Login:");
+
+        // Verifica se o campo de login está vazio
+        if (login == null || login.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo de login não pode estar vazio. Tente novamente.");
             return;
         }
 
-        // Tenta converter a string para um número
-        try {
-            int idUsuario = Integer.parseInt(idUsuarioStr);
+        String senha = JOptionPane.showInputDialog("Senha:");
 
-            String login = JOptionPane.showInputDialog("Login:");
-
-            // Verifica se o campo de login está vazio
-            if (login == null || login.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O campo de login não pode estar vazio. Tente novamente.");
-                return;
-            }
-
-            String senha = JOptionPane.showInputDialog("Senha:");
-
-            // Verifica se o campo de senha está vazio
-            if (senha == null || senha.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O campo de senha não pode estar vazio. Tente novamente.");
-                return;
-            }
-
-            Usuario usuarioCadastrar = new Usuario(idUsuario, login, senha);
-
-            // Adicione o novo usuário à lista.
-            listaUsuarios.add(usuarioCadastrar);
-            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Por favor, insira um número válido para o ID do Usuário.");
+        // Verifica se o campo de senha está vazio
+        if (senha == null || senha.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O campo de senha não pode estar vazio. Tente novamente.");
+            return;
         }
+
+        Usuario usuarioCadastrar = new Usuario(login, senha);
+
+        // Adicione o novo usuário à lista.
+        listaUsuarios.add(usuarioCadastrar);
+        JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
 
     }
 
@@ -123,40 +109,35 @@ public class Usuario {
             JOptionPane.showMessageDialog(null, "Nenhum usuário cadastrado.");
         } else {
             listarUsuarios(listaUsuarios);
-            int idEditar = Integer.parseInt(JOptionPane.showInputDialog("Qual o ID do usuário que deseja editar?"));
-            if (idEditar == -1) {
-                return;
+
+            String idEditarStr = JOptionPane.showInputDialog("Qual o ID do usuário que deseja editar?");
+            if (idEditarStr == null || idEditarStr.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O ID do usuário não pode estar vazio. Tente novamente.");
             }
-            for (Usuario usuario : listaUsuarios) {
-                if (usuario.getIdUsuario() == idEditar) {
-                    usuarioEditar = usuario;
-                    encontrado = true;
-                    break;
+
+            try {
+                int idEditar = Integer.parseInt(idEditarStr);
+
+                for (Usuario usuario : listaUsuarios) {
+                    if (usuario.getIdUsuario() == idEditar) {
+                        usuarioEditar = usuario;
+                        encontrado = true;
+                        break;
+                    }
                 }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Por favor, insira um número válido para o ID do Usuário.");
+                return;
             }
             if (encontrado) {
 
-                String[] opcoes = {"Editar ID do Usuário", "Editar Login", "Editar Senha", "Voltar"};
+                String[] opcoes = {"Editar Login", "Editar Senha", "Voltar"};
 
                 int opcao = JOptionPane.showOptionDialog(null, "Escolha uma opção:", "Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
 
                 switch (opcao) {
 
-                    case 0:// Edição do ID do usuário
-                        String novoIdUsuarioStr = JOptionPane.showInputDialog("Digite o novo ID do Usuário:");
-                        if (novoIdUsuarioStr == null) {
-                            break;
-                        }
-                        try {
-                            int novoIdUsuario = Integer.parseInt(novoIdUsuarioStr);
-                            usuarioEditar.setIdUsuario(novoIdUsuario);
-                            JOptionPane.showMessageDialog(null, "ID de usuário editado!");
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(null, "Por favor, insira um número válido para o ID do Usuário.");
-                        }
-                        break;
-
-                    case 1:    //Edição do login
+                    case 0:    //Edição do login
                         String novoLogin = JOptionPane.showInputDialog("Edite o Login:");
 
                         // Verifica se o campo de login está vazio
@@ -169,7 +150,7 @@ public class Usuario {
                         JOptionPane.showMessageDialog(null, "Login editado!");
                         break;
 
-                    case 2:    //Edição da senha
+                    case 1:    //Edição da senha
                         String novaSenha = JOptionPane.showInputDialog("Edite a Senha:");
 
                         // Verifica se o campo de senha está vazio
@@ -182,7 +163,7 @@ public class Usuario {
                         JOptionPane.showMessageDialog(null, "Senha editada!");
                         break;
 
-                    case 3:
+                    case 2:
                         break;
 
                     default:

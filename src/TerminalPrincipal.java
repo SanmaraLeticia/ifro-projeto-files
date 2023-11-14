@@ -154,12 +154,12 @@ public class TerminalPrincipal {
         while (garantiaLoop) {
             int garantiaOpcao;
 
-            String[] garantiaOpcoes = {"Cadastrar Servico", "Editar Servico", "Excluir Servico",
-                    "Listar Servico", "Voltar"};
+            String[] garantiaOpcoes = {"Cadastrar Garantia", "Editar Garantia", "Excluir Garantia",
+                    "Listar Garantia", "Voltar"};
             garantiaOpcao = JOptionPane.showOptionDialog(
                     null,
                     "Escolha uma opção de Recibo:",
-                    "Menu Recibo",
+                    "Menu Garantia",
                     JOptionPane.DEFAULT_OPTION,
                     JOptionPane.PLAIN_MESSAGE,
                     null,
