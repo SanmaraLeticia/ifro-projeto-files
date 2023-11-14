@@ -202,8 +202,8 @@ public class TerminalPrincipal {
             String[] opcoes = {"Cadastrar Usuário", "Editar Usuário", "Excluir Usuário", "Listar Usuários", "Emitir Relatório", "Voltar"};
             opcao = JOptionPane.showOptionDialog(
                     null,
-                    "Escolha uma opção:",
-                    "Gerencia Eletrônica",
+                    "Escolha uma opção de Usuário:",
+                    "Menu Usuário",
                     JOptionPane.DEFAULT_OPTION,
                     JOptionPane.PLAIN_MESSAGE,
                     null,
