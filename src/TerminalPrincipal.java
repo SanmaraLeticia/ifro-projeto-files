@@ -51,7 +51,7 @@ public class TerminalPrincipal {
                     escolhaClienteOpcoes(listaClientes);
                     break;
                 case 5: // Usuário
-                    escolhaUsuarioOpcoes(listaUsuarios);
+                    escolhaUsuarioOpcoes(listaUsuarios, listaServicos);
                     break;
                 case 6: // Sair
                     JOptionPane.showMessageDialog(null, "Programa encerrado.");
@@ -192,7 +192,7 @@ public class TerminalPrincipal {
 
     }
 
-    private static void escolhaUsuarioOpcoes(ArrayList<Usuario> listaUsuarios) {
+    private static void escolhaUsuarioOpcoes(ArrayList<Usuario> listaUsuarios, ArrayList<Servico> listaServicos) {
         boolean loop = true;
 
         while (loop == true) {
@@ -238,6 +238,7 @@ public class TerminalPrincipal {
                     break;
 
                 case 5:
+                    Usuario.emitirRelatorio(listaServicos);
                     break;
 
                 case 6:
