@@ -221,37 +221,20 @@ public class Usuario {
     }
 
     public static void emitirRelatorio(ArrayList<Servico> listaServicos) {
+
         if (listaServicos.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nenhum serviço realizado.");
         } else {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String textoRetorno = "";
+            for (Servico servico : listaServicos) {
+                textoRetorno += "\nID: " + servico.getIdServico() +
+                        " Cliente: " + servico.getCliente().getNome() +
+                        " Equipamento: " + servico.getIdEquipamento() +
+                        " Data Entrega: " + sdf.format(servico.getDataEntrega());
+            }
+            JOptionPane.showMessageDialog(null, textoRetorno);
 
-            Date dataInicial = getDateInput("Data Inicial (dd/MM/yyyy):", sdf);
-            if (dataInicial == null) {
-                return;
-            }
-            // Cadastro da data final
-            Date dataFinal = getDateInput("Data Final (dd/MM/yyyy):", sdf);
-            if (dataFinal == null) {
-                return;
-            }
-            List<Servico> listaFiltrada = listaServicos.stream()
-                    .filter(e -> (e.getDataEntrega().before(dataFinal) || e.getDataEntrega().equals(dataFinal))
-                            && e.getDataEntrega().after(dataInicial) || e.getDataEntrega().equals(dataInicial))
-                    .collect(Collectors.toList());
-
-            if (listaFiltrada.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Nenhum serviço realizado.");
-            } else {
-                String textoRetorno = "";
-                for (Servico servico : listaFiltrada) {
-                    textoRetorno += "\nID: " + servico.getIdServico() +
-                            " Cliente: " + servico.getCliente().getNome() +
-                            " Equipamento: " + servico.getIdEquipamento() +
-                            " Data Entrega: " + sdf.format(servico.getDataEntrega());
-                }
-                JOptionPane.showMessageDialog(null, textoRetorno);
-            }
         }
     }
 }
