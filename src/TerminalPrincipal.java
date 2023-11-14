@@ -199,7 +199,7 @@ public class TerminalPrincipal {
             int opcao;
 
 
-            String[] opcoes = {"Cadastrar Usuário", "Editar Usuário", "Excluir Usuário", "Listar Usuários", "Emitir Relatório", "Voltar"};
+            String[] opcoes = {"Cadastrar Usuário", "Editar Usuário", "Excluir Usuário", "Listar Usuários", "Login", "Emitir Relatório", "Voltar"};
             opcao = JOptionPane.showOptionDialog(
                     null,
                     "Escolha uma opção de Usuário:",
@@ -229,9 +229,18 @@ public class TerminalPrincipal {
                     break;
 
                 case 4:
+                    boolean encontrado = Usuario.realizarLogin(listaUsuarios);
+                    if (encontrado) {
+                        JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Usuário não encontrado.");
+                    }
                     break;
 
                 case 5:
+                    break;
+
+                case 6:
                     loop = false;
                     break;
             }
