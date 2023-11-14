@@ -16,13 +16,14 @@ public class TerminalPrincipal {
         ArrayList<Equipamento> listaEquipamentos = new ArrayList<Equipamento>();
         ArrayList<Garantia> listaGarantias = new ArrayList<Garantia>();
         ArrayList<Servico> listaServicos = new ArrayList<Servico>();
+        ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
 
         boolean loop = true;
 
         while (loop) {
             int opcao;
 
-            String[] opcoes = {"Recibo", "Equipamento", "Garantia", "Servico", "Cliente", "Sair"};
+            String[] opcoes = {"Recibo", "Equipamento", "Garantia", "Servico", "Cliente", "Usuários", "Sair"};
             opcao = JOptionPane.showOptionDialog(
                     null,
                     "Escolha qual módulo deseja usar:",
@@ -49,8 +50,10 @@ public class TerminalPrincipal {
                 case 4: // Cliente
                     escolhaClienteOpcoes(listaClientes);
                     break;
-
-                case 5: // Sair
+                case 5: // Usuário
+                    escolhaUsuarioOpcoes(listaUsuarios);
+                    break;
+                case 6: // Sair
                     JOptionPane.showMessageDialog(null, "Programa encerrado.");
                     loop = false;
                     break;
@@ -189,8 +192,50 @@ public class TerminalPrincipal {
 
     }
 
-    private static void escolhaUsuarioOpcoes(ArrayList<Cliente> listaClientes, ArrayList<Equipamento> listaEquipamentos) {
+    private static void escolhaUsuarioOpcoes(ArrayList<Usuario> listaUsuarios) {
+        boolean loop = true;
 
+        while (loop == true) {
+            int opcao;
+
+
+            String[] opcoes = {"Cadastrar Usuário", "Editar Usuário", "Excluir Usuário", "Listar Usuários", "Emitir Relatório", "Voltar"};
+            opcao = JOptionPane.showOptionDialog(
+                    null,
+                    "Escolha uma opção:",
+                    "Gerencia Eletrônica",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    opcoes,
+                    opcoes[0]);
+
+            switch (opcao) {
+                case 0:
+                    Usuario.cadastrarUsuario(listaUsuarios);
+                    break;
+
+                case 1:
+                    Usuario.editarUsuario(opcoes, listaUsuarios);
+                    break;
+
+                case 2:
+                    int idParaExcluir = Integer.parseInt(JOptionPane.showInputDialog("Digite o id do Usuário que deseja:"));
+                    Usuario.excluirUsuario(idParaExcluir, listaUsuarios);
+                    break;
+
+                case 3:
+                    Usuario.listarUsuarios(listaUsuarios);
+                    break;
+
+                case 4:
+                    break;
+
+                case 5:
+                    loop = false;
+                    break;
+            }
+        }
     }
 
     private static void escolhaServicoOpcoes(ArrayList<Cliente> listaClientes, ArrayList<Servico> listaServicos, SimpleDateFormat sdf) {
